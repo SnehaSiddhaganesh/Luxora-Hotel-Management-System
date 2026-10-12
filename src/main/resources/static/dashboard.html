@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard — LUXORA VIP Portal</title>
+    <meta name="description" content="LUXORA Customer VIP Dashboard for managing room reservations, in-room dining orders, digital keys, and profile settings.">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom Design System CSS -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body style="background-color: #080a0d;">
+
+    <!-- 1. NAVBAR -->
+    <nav class="navbar navbar-expand-xl lux-navbar dashboard-navbar scrolled border-bottom border-warning">
+        <div class="container">
+            <a class="brand-logo" href="index.html">
+                <i class="fa-solid fa-crown"></i>
+                <div class="d-flex flex-column">
+                    <span class="text-gold lh-1">LUXORA</span>
+                    <span class="brand-tagline">Stay. Dine. Relax. Experience Luxury.</span>
+                </div>
+            </a>
+            
+            <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#luxoraNavbar">
+                <i class="fa-solid fa-bars fs-2 text-gold"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="luxoraNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-xl-0">
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="rooms.html">Rooms</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="dining.html">Dining</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="booking.html">Reservations</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3 mt-3 mt-xl-0 border-start border-secondary ps-3">
+                    <div class="d-flex align-items-center gap-2 text-white">
+                        <div class="rounded-circle bg-warning text-dark fw-bold d-flex align-items-center justify-content-center" style="width:38px; height:38px;">
+                            AW
+                        </div>
+                        <div>
+                            <div class="small fw-bold text-gold user-name-display">Lord Alexander Wright</div>
+                            <div class="small text-muted user-vip-display" style="font-size:0.7rem;">LUXORA Gold VIP Member</div>
+                        </div>
+                    </div>
+                    <button class="btn-outline-gold btn-sm py-1 px-2 ms-2" onclick="handleLogout()" title="End Session">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. DASHBOARD SUB-BAR NAVIGATION -->
+    <section class="dashboard-subnav py-3" style="background: var(--bg-surface); border-bottom: 1px solid var(--border-gold);">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <div class="d-flex flex-wrap gap-2">
+                    <button class="dash-nav-link btn-gold active" data-tab="overview-pane">
+                        <i class="fa-solid fa-chart-pie me-1"></i> Overview
+                    </button>
+                    <button class="dash-nav-link btn-outline-gold" data-tab="bookings-pane">
+                        <i class="fa-solid fa-bed me-1"></i> My Bookings
+                    </button>
+                    <button class="dash-nav-link btn-outline-gold" data-tab="orders-pane">
+                        <i class="fa-solid fa-utensils me-1"></i> My Dining Orders
+                    </button>
+                    <button class="dash-nav-link btn-outline-gold" data-tab="profile-pane">
+                        <i class="fa-solid fa-user-gear me-1"></i> Profile Settings
+                    </button>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a href="booking.html" class="btn-gold btn-sm"><i class="fa-solid fa-plus me-1"></i> Book New Suite</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. DASHBOARD TAB PANES -->
+    <div class="container py-4">
+
+        <!-- TAB 1: OVERVIEW PANE -->
+        <div class="dash-tab-pane" id="overview-pane" style="display: block;">
+            
+            <!-- Top Cards: Profile Summary & Digital Key Card -->
+            <div class="row g-4 mb-4">
+                
+                <!-- Guest Profile Card -->
+                <div class="col-lg-6">
+                    <div class="p-4 rounded-4 h-100" style="background: var(--bg-surface); border: 1px solid var(--border-gold);">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="rounded-circle bg-warning text-dark fw-bold d-flex align-items-center justify-content-center fs-3" style="width:60px; height:60px;">
+                                AW
+                            </div>
+                            <div>
+                                <h3 class="text-white font-serif mb-1 user-name-display">Lord Alexander Wright</h3>
+                                <span class="badge bg-warning text-dark font-sans user-vip-display">LUXORA Gold VIP Member</span>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 pt-2 border-top border-secondary text-muted small">
+                            <div class="col-6"><i class="fa-solid fa-envelope text-gold me-1"></i> <span class="user-email-display">alexander@domain.com</span></div>
+                            <div class="col-6"><i class="fa-solid fa-phone text-gold me-1"></i> <span class="user-phone-display">+91 98765-43210</span></div>
+                            <div class="col-6"><i class="fa-solid fa-calendar-days text-gold me-1"></i> Member Since: 2024</div>
+                            <div class="col-6"><i class="fa-solid fa-crown text-gold me-1"></i> Reward Points: 1,450</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Digital Room Key Card -->
+                <div class="col-lg-6">
+                    <div class="p-4 rounded-4 h-100 text-white" style="background: linear-gradient(135deg, #181e2b 0%, #121620 100%); border: 1px solid var(--border-gold); box-shadow: var(--shadow-lg);">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="sub-title mb-0">Next Reservation</span>
+                            <span class="badge bg-secondary font-sans" id="dash-next-booking-status">No reservation</span>
+                        </div>
+
+                        <div id="dash-next-booking" class="text-muted small">Your upcoming reservation will appear here.</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Middle Row: Recent Dining Orders & Active Service Requests -->
+            <div class="row g-4 mb-4">
+                
+                <!-- Recent Food Orders Card -->
+                <div class="col-lg-6">
+                    <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-white font-serif mb-0 fs-5"><i class="fa-solid fa-utensils text-gold me-2"></i> In-Room Dining Orders</h4>
+                            <a href="dining.html" class="text-gold small fw-bold">Order Food <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                        </div>
+
+                        <div id="dash-recent-orders-container">
+                            <p class="text-muted small mb-0">Loading dining orders...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Service Requests Card -->
+                <div class="col-lg-6">
+                    <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-white font-serif mb-0 fs-5"><i class="fa-solid fa-bell-concierge text-gold me-2"></i> Concierge Requests</h4>
+                            <a href="services.html" class="text-gold small fw-bold">Request Service <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                        </div>
+
+                        <div class="p-3 mb-2 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-light);">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="badge bg-info text-dark font-sans">Confirmed</span>
+                                <span class="text-gold font-monospace small">SRV-839201</span>
+                            </div>
+                            <div class="small text-white mb-1">Aura Spa &amp; Wellness Couple Hot Stone Massage</div>
+                            <div class="small text-muted d-flex justify-content-between">
+                                <span>Today - 04:00 PM</span>
+                                <strong class="text-gold">Confirmed</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Quick Action Bar -->
+            <div class="p-4 rounded-4 text-center" style="background: var(--bg-surface); border: 1px solid var(--border-gold);">
+                <h4 class="text-white font-serif mb-3">Quick Concierge Shortcuts</h4>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <a href="booking.html" class="btn-gold btn-sm"><i class="fa-solid fa-bed me-1"></i> Reserve Suite</a>
+                    <a href="dining.html" class="btn-outline-gold btn-sm"><i class="fa-solid fa-utensils me-1"></i> In-Room Dining</a>
+                    <a href="services.html" class="btn-outline-gold btn-sm"><i class="fa-solid fa-broom me-1"></i> Request Housekeeping</a>
+                    <a href="contact.html" class="btn-outline-gold btn-sm"><i class="fa-solid fa-phone me-1"></i> Call Concierge Desk</a>
+                    <button class="btn-outline-gold btn-sm text-danger border-danger" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket me-1"></i> End Session</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TAB 2: MY BOOKINGS PANE -->
+        <div class="dash-tab-pane" id="bookings-pane" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="text-white font-serif mb-0"><i class="fa-solid fa-bed text-gold me-2"></i> Reservation History</h3>
+                <a href="booking.html" class="btn-gold btn-sm"><i class="fa-solid fa-plus me-1"></i> Book Suite</a>
+            </div>
+
+            <div id="dash-bookings-container">
+                <!-- Loaded from the authenticated bookings API -->
+            </div>
+        </div>
+
+        <!-- TAB 3: MY ORDERS PANE -->
+        <div class="dash-tab-pane" id="orders-pane" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="text-white font-serif mb-0"><i class="fa-solid fa-utensils text-gold me-2"></i> In-Room Dining History</h3>
+                <a href="dining.html" class="btn-gold btn-sm"><i class="fa-solid fa-plus me-1"></i> Order Food</a>
+            </div>
+
+            <div id="dash-orders-container">
+                <!-- Populated by dashboard.js -->
+            </div>
+        </div>
+
+        <!-- TAB 4: PROFILE SETTINGS PANE -->
+        <div class="dash-tab-pane" id="profile-pane" style="display: none;">
+            <div class="row g-4">
+                
+                <!-- Edit Personal Details -->
+                <div class="col-lg-6">
+                    <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                        <h4 class="text-white font-serif mb-3"><i class="fa-solid fa-user-pen text-gold me-2"></i> Edit Personal Profile</h4>
+                        <form onsubmit="handleProfileUpdate(event)">
+                            <div class="mb-3">
+                                <label class="form-label text-gold small text-uppercase fw-bold">Full Name</label>
+                                <input type="text" id="edit-profile-name" class="lux-input" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-gold small text-uppercase fw-bold">Email Address</label>
+                                <input type="email" id="edit-profile-email" class="lux-input" readonly style="opacity:0.7;">
+                                <small class="text-muted">Email cannot be changed directly.</small>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-gold small text-uppercase fw-bold">Phone Number</label>
+                                <input type="tel" id="edit-profile-phone" class="lux-input" required>
+                            </div>
+                            <button type="submit" class="btn-gold py-2 px-4">Save Profile Updates</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Security / Change Password -->
+                <div class="col-lg-6">
+                    <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                        <h4 class="text-white font-serif mb-3"><i class="fa-solid fa-shield-halved text-gold me-2"></i> Security &amp; Password</h4>
+                        <form onsubmit="event.preventDefault(); showToast('Password changed successfully!', 'Security Updated'); this.reset();">
+                            <div class="mb-3">
+                                <label class="form-label text-gold small text-uppercase fw-bold">Current Password</label>
+                                <input type="password" class="lux-input" placeholder="••••••••" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-gold small text-uppercase fw-bold">New Password</label>
+                                <input type="password" class="lux-input" placeholder="••••••••" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-gold small text-uppercase fw-bold">Confirm New Password</label>
+                                <input type="password" class="lux-input" placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" class="btn-outline-gold py-2 px-4">Update Password</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="lux-footer mt-5">
+        <div class="container text-center">
+            <p class="small text-muted mb-0">&copy; 2026 LUXORA Hotel Management &amp; Hospitality System. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle & Custom Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

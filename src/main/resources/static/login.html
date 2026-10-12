@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register — LUXORA VIP Portal</title>
+    <meta name="description" content="Access your LUXORA Guest Account or Register for VIP rewards, keyless room entry, and instant reservations.">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom Design System CSS -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- 1. PREMIUM RESPONSIVE NAVBAR -->
+    <nav class="navbar navbar-expand-xl lux-navbar scrolled">
+        <div class="container">
+            <a class="brand-logo" href="index.html">
+                <i class="fa-solid fa-crown"></i>
+                <div class="d-flex flex-column">
+                    <span class="text-gold lh-1">LUXORA</span>
+                    <span class="brand-tagline">Stay. Dine. Relax. Experience Luxury.</span>
+                </div>
+            </a>
+            
+            <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#luxoraNavbar">
+                <i class="fa-solid fa-bars fs-2 text-gold"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="luxoraNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-xl-0">
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="rooms.html">Rooms</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="dining.html">Dining</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="booking.html">Reservations</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="contact.html">Concierge Desk</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2 mt-3 mt-xl-0">
+                    <a href="login.html" class="btn-gold btn-sm">
+                        <i class="fa-solid fa-user me-1"></i> Login / Register
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. AUTHENTICATION SECTION -->
+    <section class="py-5 mt-5">
+        <div class="container py-4">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="p-4 p-md-5 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-gold); box-shadow: var(--shadow-lg);">
+                        
+                        <!-- Header Icon & Title -->
+                        <div class="text-center mb-4">
+                            <div class="amenity-icon mb-2" style="width: 60px; height: 60px; font-size: 1.5rem;"><i class="fa-solid fa-crown"></i></div>
+                            <h2 class="text-white font-serif mb-1">LUXORA <span class="text-gold">VIP Portal</span></h2>
+                            <p class="text-muted small">Access your account, track reservations &amp; unlock digital room keys.</p>
+                        </div>
+
+                        <!-- Tab Pills -->
+                        <ul class="nav nav-pills nav-justified mb-4" id="authTab" role="tablist">
+                            <li class="nav-item">
+                                <button class="nav-link active bg-warning text-dark font-bold me-1 py-2" id="login-tab-btn" data-bs-toggle="tab" data-bs-target="#login-pane">
+                                    <i class="fa-solid fa-right-to-bracket me-1"></i> Login
+                                </button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link bg-secondary text-white font-bold ms-1 py-2" id="register-tab-btn" data-bs-toggle="tab" data-bs-target="#register-pane">
+                                    <i class="fa-solid fa-user-plus me-1"></i> Register
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- Tab Content -->
+                        <div class="tab-content" id="authTabContent">
+                            
+                            <!-- TAB 1: LOGIN FORM -->
+                            <div class="tab-pane fade show active" id="login-pane">
+                                <div id="login-alert" style="display: none;"></div>
+
+                                <div class="mb-3">
+                                    <label for="login-role" class="form-label text-gold small text-uppercase fw-bold">Login as</label>
+                                    <select id="login-role" class="lux-input" aria-label="Choose account type">
+                                        <option value="CUSTOMER">Customer</option>
+                                        <option value="ADMIN">Admin / Receptionist</option>
+                                    </select>
+                                    <div class="form-text text-muted">Staff accounts are created by the hotel. Use the credentials provided by your administrator; staff cannot register here.</div>
+                                </div>
+
+                                <form id="lux-login-form">
+                                    <div class="mb-3">
+                                        <label for="login-email" class="form-label text-gold small text-uppercase fw-bold">Email Address</label>
+                                        <input type="email" id="login-email" class="lux-input" placeholder="e.g. alexander@domain.com" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label for="login-password" class="form-label text-gold small text-uppercase fw-bold mb-0">Password</label>
+                                            <a href="#" class="small text-muted" onclick="showToast('Password reset link sent to your email.', 'Auth Support')">Forgot Password?</a>
+                                        </div>
+                                        <input type="password" id="login-password" class="lux-input" placeholder="••••••••" required>
+                                    </div>
+
+                                    <button type="submit" class="btn-gold btn-lg w-100 justify-content-center py-3">
+                                        <i class="fa-solid fa-lock me-2"></i> Login to VIP Portal
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- TAB 2: REGISTER FORM -->
+                            <div class="tab-pane fade" id="register-pane">
+                                <div id="reg-alert" style="display: none;"></div>
+                                <p class="small text-muted mb-3">Guest registration is open to customers only. Admin and receptionist accounts are provisioned by hotel management.</p>
+
+                                <form id="lux-register-form">
+                                    <div class="mb-3">
+                                        <label for="reg-name" class="form-label text-gold small text-uppercase fw-bold">Full Name *</label>
+                                        <input type="text" id="reg-name" class="lux-input" placeholder="e.g. Lord Alexander Wright" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="reg-email" class="form-label text-gold small text-uppercase fw-bold">Email Address *</label>
+                                        <input type="email" id="reg-email" class="lux-input" placeholder="alexander@domain.com" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="reg-phone" class="form-label text-gold small text-uppercase fw-bold">Phone / WhatsApp *</label>
+                                        <input type="tel" id="reg-phone" class="lux-input" placeholder="+91 98765-43210" required>
+                                    </div>
+
+                                    <div class="row g-2 mb-3">
+                                        <div class="col-6">
+                                            <label for="reg-password" class="form-label text-gold small text-uppercase fw-bold">Password *</label>
+                                            <input type="password" id="reg-password" class="lux-input" minlength="12" required>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="reg-confirm-password" class="form-label text-gold small text-uppercase fw-bold">Confirm *</label>
+                                            <input type="password" id="reg-confirm-password" class="lux-input" minlength="12" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-check mb-4">
+                                        <input class="form-check-input" type="checkbox" id="reg-terms" required>
+                                        <label class="form-check-label text-muted small cursor-pointer" for="reg-terms">
+                                            I agree to LUXORA VIP Terms &amp; Privacy Policy
+                                        </label>
+                                    </div>
+
+                                    <button type="submit" class="btn-gold btn-lg w-100 justify-content-center py-3">
+                                        <i class="fa-solid fa-user-plus me-2"></i> Create VIP Account
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="lux-footer mt-5">
+        <div class="container text-center">
+            <p class="small text-muted mb-0">&copy; 2026 LUXORA Hotel Management &amp; Hospitality System. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle & Custom Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

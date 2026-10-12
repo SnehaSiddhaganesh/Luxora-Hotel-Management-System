@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff & Admin Operations Portal — LUXORA Hotel</title>
+    <meta name="description" content="LUXORA Hotel Management & Operations Dashboard for staff, receptionist, and administrators.">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom Design System CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        /* Admin Sidebar Layout Rules */
+        .admin-layout-wrapper {
+            display: flex;
+            min-height: calc(100vh - 70px);
+            margin-top: 70px;
+        }
+        .admin-sidebar {
+            width: 260px;
+            background: var(--bg-surface);
+            border-right: 1px solid var(--border-gold);
+            padding: 1.5rem 1rem;
+            flex-shrink: 0;
+        }
+        .admin-sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--text-muted);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            transition: var(--transition-fast);
+        }
+        .admin-sidebar-link:hover,
+        .admin-sidebar-link.active {
+            color: #000;
+            background: var(--gold-gradient);
+            font-weight: 700;
+            box-shadow: var(--shadow-gold);
+        }
+        .admin-sidebar-link i {
+            width: 20px;
+            text-align: center;
+        }
+        .admin-content-area {
+            flex-grow: 1;
+            padding: 2rem;
+            background: #080a0d;
+            overflow-x: hidden;
+        }
+        @media (max-width: 991px) {
+            .admin-layout-wrapper {
+                flex-direction: column;
+            }
+            .admin-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-gold);
+            }
+        }
+    </style>
+</head>
+<body style="background-color: #080a0d;">
+
+    <!-- 1. ADMIN NAVIGATION BAR -->
+    <nav class="navbar navbar-expand-lg lux-navbar scrolled border-bottom border-warning">
+        <div class="container-fluid px-4">
+            <a class="brand-logo" href="index.html">
+                <i class="fa-solid fa-crown"></i>
+                <span class="text-gold">LUXORA</span>
+                <span class="badge bg-warning text-dark font-sans fs-6 ms-2">Staff &amp; Admin Portal</span>
+            </a>
+            
+            <div class="d-flex align-items-center gap-3 ms-auto">
+                <a href="index.html" class="btn-outline-gold btn-sm"><i class="fa-solid fa-globe me-1"></i> Public Website</a>
+                <div class="d-flex align-items-center gap-2 text-white border-start border-secondary ps-3">
+                    <div class="rounded-circle bg-warning text-dark fw-bold d-flex align-items-center justify-content-center" style="width:36px; height:36px;">
+                        JD
+                    </div>
+                    <div class="d-none d-md-block">
+                        <div class="small fw-bold text-gold">John Doe</div>
+                        <div class="small text-muted" style="font-size:0.75rem;">General Manager (ROLE_ADMIN)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. MAIN SIDEBAR & CONTENT LAYOUT -->
+    <div class="admin-layout-wrapper">
+        
+        <!-- SIDEBAR MENU (ALL 11 MODULES) -->
+        <aside class="admin-sidebar">
+            <div class="text-gold small text-uppercase fw-bold mb-3 px-2">Operations Navigation</div>
+            
+            <a href="#" class="admin-sidebar-link active" data-pane="admin-dashboard-pane">
+                <i class="fa-solid fa-chart-line"></i> Dashboard
+            </a>
+
+            <a href="#" class="admin-sidebar-link" data-pane="admin-rooms-pane">
+                <i class="fa-solid fa-bed"></i> Rooms Inventory
+            </a>
+
+            <a href="#" class="admin-sidebar-link" data-pane="admin-customers-pane">
+                <i class="fa-solid fa-users"></i> Customers / Guests
+            </a>
+
+            <a href="#" class="admin-sidebar-link" data-pane="admin-bookings-pane">
+                <i class="fa-solid fa-calendar-check"></i> Reservations &amp; Bookings
+            </a>
+
+            <a href="#" class="admin-sidebar-link" data-pane="admin-fooditems-pane">
+                <i class="fa-solid fa-utensils"></i> Food Menu Items
+            </a>
+
+            <a href="#" class="admin-sidebar-link" data-pane="admin-foodorders-pane">
+                <i class="fa-solid fa-kitchen-set"></i> Kitchen Food Orders
+            </a>
+
+            <a href="#" class="admin-sidebar-link" data-pane="admin-services-pane">
+                <i class="fa-solid fa-bell-concierge"></i> Service Tickets
+            </a>
+
+            <a href="#" class="admin-sidebar-link" data-pane="admin-payments-pane">
+                <i class="fa-solid fa-receipt"></i> Payments &amp; Invoices
+            </a>
+
+            <a href="#" class="admin-sidebar-link" data-pane="admin-employees-pane">
+                <i class="fa-solid fa-user-tie"></i> Staff Employees
+            </a>
+
+            <a href="#" class="admin-sidebar-link" data-pane="admin-reports-pane">
+                <i class="fa-solid fa-chart-pie"></i> Revenue Reports
+            </a>
+
+            <a href="#" class="admin-sidebar-link" data-pane="admin-settings-pane">
+                <i class="fa-solid fa-gear"></i> System Settings
+            </a>
+        </aside>
+
+        <!-- MAIN CONTENT AREA PANES -->
+        <main class="admin-content-area">
+
+            <!-- MODULE 1: DASHBOARD OVERVIEW PANE -->
+            <div class="admin-section-pane" id="admin-dashboard-pane" style="display: block;">
+                
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="text-white font-serif mb-1">Reception &amp; Operations <span class="text-gold">Control Panel</span></h2>
+                        <p class="text-muted small mb-0">Real-time overview of hotel room occupancy, revenue, and active concierge telemetry.</p>
+                    </div>
+                    <div class="d-flex gap-2 mt-3 mt-md-0">
+                        <button class="btn-gold btn-sm" data-bs-toggle="modal" data-bs-target="#addRoomModal"><i class="fa-solid fa-plus me-1"></i> Add New Room</button>
+                        <button class="btn-outline-gold btn-sm" onclick="showToast('Data refreshed.', 'Sync Status')"><i class="fa-solid fa-rotate me-1"></i> Refresh Data</button>
+                    </div>
+                </div>
+
+                <!-- KPI METRIC CARDS -->
+                <div class="row g-3 mb-4">
+                    
+                    <!-- Total Rooms -->
+                    <div class="col-xl-2 col-md-4 col-6">
+                        <div class="p-3 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-gold);">
+                            <div class="small text-muted text-uppercase fw-bold mb-1">Total Rooms</div>
+                            <div class="fs-3 font-serif fw-bold text-white">50</div>
+                            <small class="text-gold" style="font-size:0.75rem;"><i class="fa-solid fa-hotel me-1"></i> Inventory</small>
+                        </div>
+                    </div>
+
+                    <!-- Available Rooms -->
+                    <div class="col-xl-2 col-md-4 col-6">
+                        <div class="p-3 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-gold);">
+                            <div class="small text-muted text-uppercase fw-bold mb-1">Available</div>
+                            <div class="fs-3 font-serif fw-bold text-success">6</div>
+                            <small class="text-success" style="font-size:0.75rem;"><i class="fa-solid fa-circle-check me-1"></i> Ready</small>
+                        </div>
+                    </div>
+
+                    <!-- Occupied Rooms -->
+                    <div class="col-xl-2 col-md-4 col-6">
+                        <div class="p-3 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-gold);">
+                            <div class="small text-muted text-uppercase fw-bold mb-1">Occupied</div>
+                            <div class="fs-3 font-serif fw-bold text-warning">44</div>
+                            <small class="text-warning" style="font-size:0.75rem;"><i class="fa-solid fa-bed me-1"></i> 88% Rate</small>
+                        </div>
+                    </div>
+
+                    <!-- Today's Bookings -->
+                    <div class="col-xl-2 col-md-4 col-6">
+                        <div class="p-3 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-gold);">
+                            <div class="small text-muted text-uppercase fw-bold mb-1">Today's Bookings</div>
+                            <div class="fs-3 font-serif fw-bold text-white">12</div>
+                            <small class="text-info" style="font-size:0.75rem;"><i class="fa-solid fa-plane-arrival me-1"></i> Arrivals</small>
+                        </div>
+                    </div>
+
+                    <!-- Pending Food Orders -->
+                    <div class="col-xl-2 col-md-4 col-6">
+                        <div class="p-3 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-gold);">
+                            <div class="small text-muted text-uppercase fw-bold mb-1">Kitchen Orders</div>
+                            <div class="fs-3 font-serif fw-bold text-warning">5</div>
+                            <small class="text-warning" style="font-size:0.75rem;"><i class="fa-solid fa-clock me-1"></i> Pending</small>
+                        </div>
+                    </div>
+
+                    <!-- Total Revenue -->
+                    <div class="col-xl-2 col-md-4 col-6">
+                        <div class="p-3 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-gold);">
+                            <div class="small text-muted text-uppercase fw-bold mb-1">Total Revenue</div>
+                            <div class="fs-3 font-serif fw-bold text-gold">₹1,48,950</div>
+                            <small class="text-success" style="font-size:0.75rem;"><i class="fa-solid fa-arrow-trend-up me-1"></i> +14.2%</small>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Live Quick Table Preview -->
+                <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                    <h4 class="text-white font-serif mb-3"><i class="fa-solid fa-clock-rotate-left text-gold me-2"></i> Recent Guest Activity Log</h4>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover align-middle mb-0" id="admin-customers-table">
+                            <thead>
+                                <tr class="text-gold border-secondary small text-uppercase">
+                                    <th>Ref ID</th>
+                                    <th>Guest Name</th>
+                                    <th>Suite #</th>
+                                    <th>Dates</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge bg-secondary font-monospace">LUX-92014</span></td>
+                                    <td class="text-white fw-bold">Lord Alexander Wright</td>
+                                    <td><span class="text-gold">Presidential #501</span></td>
+                                    <td class="small text-muted">Oct 10 → Oct 14</td>
+                                    <td class="fw-bold text-white">₹44,240</td>
+                                    <td><span class="badge bg-success">Confirmed</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-secondary font-monospace">LUX-84192</span></td>
+                                    <td class="text-white fw-bold">Victoria Sterling</td>
+                                    <td><span class="text-gold">Deluxe #304</span></td>
+                                    <td class="small text-muted">Oct 11 → Oct 15</td>
+                                    <td class="fw-bold text-white">₹14,000</td>
+                                    <td><span class="badge bg-success">Checked-In</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- MODULE 2: ROOMS INVENTORY PANE -->
+            <div class="admin-section-pane" id="admin-rooms-pane" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="text-white font-serif mb-0"><i class="fa-solid fa-bed text-gold me-2"></i> Rooms Inventory &amp; Housekeeping Status</h3>
+                    <button class="btn-gold btn-sm" data-bs-toggle="modal" data-bs-target="#addRoomModal"><i class="fa-solid fa-plus me-1"></i> Add New Room</button>
+                </div>
+
+                <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover align-middle mb-0" id="admin-rooms-table">
+                            <thead>
+                                <tr class="text-gold border-secondary small text-uppercase">
+                                    <th>Room #</th>
+                                    <th>Category</th>
+                                    <th>Price / Night</th>
+                                    <th>Specs</th>
+                                    <th>Status</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Rendered by admin.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODULE 3: CUSTOMERS / GUESTS PANE -->
+            <div class="admin-section-pane" id="admin-customers-pane" style="display: none;">
+                <h3 class="text-white font-serif mb-4"><i class="fa-solid fa-users text-gold me-2"></i> Guest Customers Directory</h3>
+                <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover align-middle mb-0">
+                            <thead>
+                                <tr class="text-gold border-secondary small text-uppercase">
+                                    <th>Guest ID</th>
+                                    <th>Guest Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Bookings / Orders</th>
+                                </tr>
+                            </thead>
+                            <tbody><!-- Loaded from the customer API by admin.js --></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODULE 4: RESERVATIONS & BOOKINGS PANE -->
+            <div class="admin-section-pane" id="admin-bookings-pane" style="display: none;">
+                <h3 class="text-white font-serif mb-4"><i class="fa-solid fa-calendar-check text-gold me-2"></i> Reservations &amp; Front Desk Check-In</h3>
+                <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover align-middle mb-0" id="admin-bookings-table">
+                            <thead>
+                                <tr class="text-gold border-secondary small text-uppercase">
+                                    <th>Ref ID</th>
+                                    <th>Guest Details</th>
+                                    <th>Suite #</th>
+                                    <th>Dates</th>
+                                    <th>Total</th>
+                                    <th>Customer Request</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Rendered by admin.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODULE 5: FOOD MENU ITEMS PANE -->
+            <div class="admin-section-pane" id="admin-fooditems-pane" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="text-white font-serif mb-0"><i class="fa-solid fa-utensils text-gold me-2"></i> Kitchen Food Menu Inventory</h3>
+                    <button class="btn-gold btn-sm" onclick="showToast('Opening dish creation editor...', 'Kitchen Menu')"><i class="fa-solid fa-plus me-1"></i> Add New Dish</button>
+                </div>
+
+                <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover align-middle mb-0" id="admin-food-table">
+                            <thead>
+                                <tr class="text-gold border-secondary small text-uppercase">
+                                    <th>Dish Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Dietary</th>
+                                    <th>Availability</th>
+                                    <th class="text-end">Stock Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Rendered by admin.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODULE 6: KITCHEN FOOD ORDERS PANE -->
+            <div class="admin-section-pane" id="admin-foodorders-pane" style="display: none;">
+                <h3 class="text-white font-serif mb-4"><i class="fa-solid fa-kitchen-set text-gold me-2"></i> In-Room Dining Kitchen Orders</h3>
+                <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover align-middle mb-0" id="admin-food-orders-table">
+                            <thead>
+                                <tr class="text-gold border-secondary small text-uppercase">
+                                    <th>Order ID</th>
+                                    <th>Room #</th>
+                                    <th>Guest Name</th>
+                                    <th>Ordered Items</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th class="text-end">Kitchen Status Dispatch</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Rendered by admin.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODULE 7: SERVICE TICKETS PANE -->
+            <div class="admin-section-pane" id="admin-services-pane" style="display: none;">
+                <h3 class="text-white font-serif mb-4"><i class="fa-solid fa-bell-concierge text-gold me-2"></i> Concierge Service Tickets</h3>
+                <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover align-middle mb-0" id="admin-services-table">
+                            <thead>
+                                <tr class="text-gold border-secondary small text-uppercase">
+                                    <th>Ticket ID</th>
+                                    <th>Service Name</th>
+                                    <th>Target Suite</th>
+                                    <th>Preferred Time</th>
+                                    <th>Status</th>
+                                    <th class="text-end">Dispatch Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Rendered by admin.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODULE 8: PAYMENTS & INVOICES PANE -->
+            <div class="admin-section-pane" id="admin-payments-pane" style="display: none;">
+                <h3 class="text-white font-serif mb-4"><i class="fa-solid fa-receipt text-gold me-2"></i> Guest Invoices &amp; Payments</h3>
+                <div class="p-4 rounded-4 text-center py-5" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                    <i class="fa-solid fa-dollar-sign text-gold fs-1 mb-3"></i>
+                    <h4 class="text-white font-serif mb-2">Billing &amp; Audit Reports</h4>
+                    <p class="text-muted">Total Paid Invoices: ₹1,48,950 | Pending Guest Folios: ₹12,400</p>
+                </div>
+            </div>
+
+            <!-- MODULE 9: EMPLOYEES PANE -->
+            <div class="admin-section-pane" id="admin-employees-pane" style="display: none;">
+                <h3 class="text-white font-serif mb-4"><i class="fa-solid fa-user-tie text-gold me-2"></i> Staff Employees Directory</h3>
+                <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover align-middle mb-0">
+                            <thead>
+                                <tr class="text-gold border-secondary small text-uppercase">
+                                    <th>Emp ID</th>
+                                    <th>Staff Name</th>
+                                    <th>Role / Department</th>
+                                    <th>Shift</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>EMP-101</td>
+                                    <td class="fw-bold text-white">John Doe</td>
+                                    <td>General Manager</td>
+                                    <td>Morning Shift</td>
+                                    <td><span class="badge bg-success">On Duty</span></td>
+                                </tr>
+                                <tr>
+                                    <td>EMP-102</td>
+                                    <td class="fw-bold text-white">Sarah Jenkins</td>
+                                    <td>Chief Concierge</td>
+                                    <td>Evening Shift</td>
+                                    <td><span class="badge bg-success">On Duty</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODULE 10: REPORTS PANE -->
+            <div class="admin-section-pane" id="admin-reports-pane" style="display: none;">
+                <h3 class="text-white font-serif mb-4"><i class="fa-solid fa-chart-pie text-gold me-2"></i> Revenue &amp; Occupancy Telemetry Reports</h3>
+                <div class="p-4 rounded-4 text-center py-5" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                    <i class="fa-solid fa-chart-line text-gold fs-1 mb-3"></i>
+                    <h4 class="text-white font-serif mb-2">Monthly Performance Telemetry</h4>
+                    <p class="text-muted mb-0">Occupancy Rate: 88% | RevPAR: ₹8,450 | ADR: ₹9,600</p>
+                </div>
+            </div>
+
+            <!-- MODULE 11: SETTINGS PANE -->
+            <div class="admin-section-pane" id="admin-settings-pane" style="display: none;">
+                <h3 class="text-white font-serif mb-4"><i class="fa-solid fa-gear text-gold me-2"></i> Hotel System Settings</h3>
+                <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-gold small text-uppercase fw-bold">Hotel Property Name</label>
+                            <input type="text" class="lux-input" value="LUXORA Grand Resort & Spa">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-gold small text-uppercase fw-bold">Default Currency</label>
+                            <input type="text" class="lux-input" value="INR (₹)">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-gold small text-uppercase fw-bold">Standard GST Rate (%)</label>
+                            <input type="number" class="lux-input" value="18">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-gold small text-uppercase fw-bold">System Auto-Backup</label>
+                            <select class="lux-input">
+                                <option>Enabled (Daily at Midnight)</option>
+                                <option>Disabled</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MODAL: ADD NEW ROOM -->
+    <div class="modal fade" id="addRoomModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: var(--bg-surface); border: 1px solid var(--gold-primary); color: #fff;">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title font-serif text-gold"><i class="fa-solid fa-plus me-2"></i> Add Room to Inventory</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form onsubmit="handleAddRoomSubmit(event)">
+                        <div class="mb-3">
+                            <label class="form-label text-gold small text-uppercase fw-bold">Room / Suite Number *</label>
+                            <input type="text" id="new-room-num" class="lux-input" placeholder="e.g. 502" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-gold small text-uppercase fw-bold">Category</label>
+                            <select id="new-room-category" class="lux-input">
+                                <option value="Standard Room">Standard Room</option>
+                                <option value="Deluxe Room">Deluxe Room</option>
+                                <option value="Premium Oceanfront">Premium Oceanfront</option>
+                                <option value="Executive Suite">Executive Suite</option>
+                                <option value="Presidential Royal Suite">Presidential Royal Suite</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-gold small text-uppercase fw-bold">Price per Night (₹) *</label>
+                            <input type="number" id="new-room-price" class="lux-input" placeholder="e.g. 4500" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-gold small text-uppercase fw-bold">Max Guests Capacity</label>
+                            <select id="new-room-capacity" class="lux-input">
+                                <option value="2">2 Guests</option>
+                                <option value="3">3 Guests</option>
+                                <option value="4">4 Guests</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-gold w-100 justify-content-center py-2">Add Room to Inventory</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle & Custom Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

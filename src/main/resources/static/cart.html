@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-Room Dining Cart & Order Tracking — LUXORA Hotel</title>
+    <meta name="description" content="Review your in-room food cart, customize room delivery preferences, and track your dining order status live at LUXORA.">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom Design System CSS -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- 1. PREMIUM RESPONSIVE NAVBAR -->
+    <nav class="navbar navbar-expand-xl lux-navbar scrolled">
+        <div class="container">
+            <a class="brand-logo" href="index.html">
+                <i class="fa-solid fa-crown"></i>
+                <div class="d-flex flex-column">
+                    <span class="text-gold lh-1">LUXORA</span>
+                    <span class="brand-tagline">Stay. Dine. Relax. Experience Luxury.</span>
+                </div>
+            </a>
+            
+            <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#luxoraNavbar">
+                <i class="fa-solid fa-bars fs-2 text-gold"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="luxoraNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-xl-0">
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="rooms.html">Rooms</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="dining.html">Dining</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="booking.html">Reservations</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="contact.html">Concierge Desk</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2 mt-3 mt-xl-0">
+                    <button class="btn-outline-gold btn-sm" data-bs-toggle="modal" data-bs-target="#myBookingModal">
+                        <i class="fa-solid fa-magnifying-glass me-1"></i> My Booking
+                    </button>
+
+                    <a href="login.html" class="btn-outline-gold btn-sm">
+                        <i class="fa-solid fa-user me-1"></i> Login / Register
+                    </a>
+
+                    <a href="cart.html" class="btn-gold btn-sm">
+                        <i class="fa-solid fa-cart-shopping me-1"></i> Cart 
+                        <span class="badge bg-dark text-warning rounded-circle ms-1" id="nav-cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HEADER BANNER -->
+    <section class="py-5 mt-5 text-center text-white" style="background: linear-gradient(180deg, rgba(10, 12, 16, 0.85) 0%, rgba(10, 12, 16, 1) 100%), url('images/food-breakfast.png') center/cover;">
+        <div class="container py-4">
+            <span class="sub-title">24/7 Butler Room Service</span>
+            <h1 class="display-4 font-serif text-white mb-2">In-Room Dining <span class="text-gold">Cart &amp; Tracking</span></h1>
+            <p class="text-muted max-w-600 mx-auto fs-6">Review your order, specify room delivery details, and monitor live kitchen preparation &amp; butler delivery.</p>
+        </div>
+    </section>
+
+    <!-- 3. LIVE ORDER TRACKING STEPPER SECTION (IF ACTIVE ORDER EXISTS) -->
+    <section class="py-4" id="order-tracking-card" style="display: none; background: var(--bg-surface); border-bottom: 1px solid var(--border-gold);">
+        <div class="container py-3">
+            <div class="p-4 rounded-4" style="background: var(--bg-card); border: 1px solid var(--border-gold); box-shadow: var(--shadow-lg);">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2 border-bottom border-secondary pb-3">
+                    <div>
+                        <span class="sub-title mb-1">Active Room Order Telemetry</span>
+                        <h3 class="text-white font-serif mb-0">Order <span class="text-gold font-monospace" id="track-order-id">ORD-000000</span></h3>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge bg-warning text-dark font-sans fs-6 px-3 py-2" id="track-status-badge">Order Placed</span>
+                        <div class="small text-muted mt-1"><i class="fa-solid fa-door-closed text-gold me-1"></i> Deliver to: <strong class="text-white" id="track-room-num">Room #000</strong></div>
+                    </div>
+                </div>
+
+                <!-- Stepper Progress Bar -->
+                <div class="row g-3 text-center my-3">
+                    <!-- Step 1 -->
+                    <div class="col-3" id="step-placed">
+                        <div class="stepper-icon rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; transition: 0.3s ease;">
+                            <i class="fa-solid fa-receipt fs-5"></i>
+                        </div>
+                        <div class="small font-serif">1. Order Placed</div>
+                        <small class="text-muted d-none d-md-block" style="font-size:0.7rem;">Kitchen Received</small>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="col-3" id="step-preparing">
+                        <div class="stepper-icon rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; transition: 0.3s ease;">
+                            <i class="fa-solid fa-fire-burner fs-5"></i>
+                        </div>
+                        <div class="small font-serif">2. Preparing</div>
+                        <small class="text-muted d-none d-md-block" style="font-size:0.7rem;">Chef Cooking</small>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="col-3" id="step-delivery">
+                        <div class="stepper-icon rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; transition: 0.3s ease;">
+                            <i class="fa-solid fa-person-walking-luggage fs-5"></i>
+                        </div>
+                        <div class="small font-serif">3. Out for Delivery</div>
+                        <small class="text-muted d-none d-md-block" style="font-size:0.7rem;">Butler En-Route</small>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="col-3" id="step-delivered">
+                        <div class="stepper-icon rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; transition: 0.3s ease;">
+                            <i class="fa-solid fa-bell-concierge fs-5"></i>
+                        </div>
+                        <div class="small font-serif">4. Delivered</div>
+                        <small class="text-muted d-none d-md-block" style="font-size:0.7rem;">Arrived at Door</small>
+                    </div>
+                </div>
+
+                <div class="p-3 rounded-3 mt-4 text-center" style="background: rgba(212,175,55,0.1); border: 1px dashed var(--border-gold);">
+                    <div class="small text-gold"><i class="fa-solid fa-circle-info me-1"></i> Guest: <strong class="text-white" id="track-guest-name">-</strong> | Total Payable: <strong class="text-gold" id="track-total-amount">₹0</strong> (Billed to Room Account)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. CART ITEMS LIST & CHECKOUT FORM SECTION -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                
+                <!-- Left Column: Cart Items List -->
+                <div class="col-lg-7">
+                    <div class="p-4 rounded-4" style="background: var(--bg-surface); border: 1px solid var(--border-light);">
+                        <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary">
+                            <h3 class="text-white font-serif mb-0"><i class="fa-solid fa-utensils text-gold me-2"></i> Selected Dishes</h3>
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="badge bg-warning text-dark font-sans" id="cart-total-items-badge">0 Items</span>
+                                <button class="btn-outline-gold btn-sm py-1 px-2" onclick="clearEntireCart()"><i class="fa-solid fa-trash-can me-1"></i> Clear Cart</button>
+                            </div>
+                        </div>
+
+                        <!-- Cart Items Container -->
+                        <div id="cart-items-list">
+                            <!-- Populated by cart.js -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Room Delivery Form & Order Summary -->
+                <div class="col-lg-5">
+                    <div class="p-4 rounded-4 position-sticky" style="top: 100px; background: var(--bg-card); border: 1px solid var(--border-gold); box-shadow: var(--shadow-lg);">
+                        <h4 class="text-white font-serif mb-3 d-flex align-items-center justify-content-between">
+                            Order Summary &amp; Room Info
+                            <i class="fa-solid fa-receipt text-gold"></i>
+                        </h4>
+
+                        <!-- Price Breakdown -->
+                        <div class="py-2 border-bottom border-secondary d-flex justify-content-between small">
+                            <span class="text-muted">Food Subtotal:</span>
+                            <span class="text-white fw-bold" id="cart-subtotal">₹0</span>
+                        </div>
+
+                        <div class="py-2 border-bottom border-secondary d-flex justify-content-between small">
+                            <span class="text-muted">Butler Delivery Fee:</span>
+                            <span class="text-white fw-bold" id="cart-delivery-fee">₹0</span>
+                        </div>
+
+                        <div class="py-2 border-bottom border-secondary d-flex justify-content-between small">
+                            <span class="text-muted">Taxes &amp; GST (5%):</span>
+                            <span class="text-white fw-bold" id="cart-tax">₹0</span>
+                        </div>
+
+                        <div class="pt-3 mb-4 d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="text-gold text-uppercase fw-bold small">Grand Total</div>
+                                <small class="text-muted" style="font-size:0.7rem;">Charged to Room Account</small>
+                            </div>
+                            <div class="text-gold font-serif fs-2 fw-bold" id="cart-grand-total">₹0</div>
+                        </div>
+
+                        <!-- Room Delivery Form -->
+                        <form onsubmit="handleFoodCheckout(event)">
+                            <div class="mb-3">
+                                <label for="order-room-number" class="form-label text-gold small text-uppercase fw-semibold">Suite / Room Number *</label>
+                                <input type="text" id="order-room-number" class="lux-input" placeholder="e.g. Suite 501" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="order-guest-name" class="form-label text-gold small text-uppercase fw-semibold">Guest Name *</label>
+                                <input type="text" id="order-guest-name" class="lux-input" placeholder="e.g. Lord Alexander Wright" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="order-guest-phone" class="form-label text-gold small text-uppercase fw-semibold">Phone / Extension *</label>
+                                <input type="tel" id="order-guest-phone" class="lux-input" placeholder="+91 98765-43210" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="order-instructions" class="form-label text-gold small text-uppercase fw-semibold">Special Delivery Instructions</label>
+                                <input type="text" id="order-instructions" class="lux-input" placeholder="Leave at door, extra napkins, cutleries...">
+                            </div>
+
+                            <button type="submit" class="btn-gold btn-lg w-100 justify-content-center py-3">
+                                <i class="fa-solid fa-paper-plane me-2"></i> Place In-Room Dining Order
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MODALS FOR LOGIN, MY BOOKING -->
+    <div class="modal fade" id="loginRegisterModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: var(--bg-surface); border: 1px solid var(--gold-primary); color: #fff;">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title font-serif text-gold">LUXORA Guest Portal</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form data-luxora-login-form>
+                        <div class="mb-3">
+                            <label class="form-label text-gold small">Email Address</label>
+                            <input type="email" class="lux-input" placeholder="guest@domain.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-gold small">Password</label>
+                            <input type="password" class="lux-input" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-gold w-100 justify-content-center py-2">Login to Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myBookingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: var(--bg-surface); border: 1px solid var(--gold-primary); color: #fff;">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title font-serif text-gold"><i class="fa-solid fa-magnifying-glass me-2"></i> Find My Booking</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form onsubmit="event.preventDefault(); showToast('Booking LUX-849201 found: Presidential Suite (Confirmed)', 'Reservation Status');">
+                        <div class="mb-3">
+                            <label class="form-label text-gold small">Booking Reference ID</label>
+                            <input type="text" class="lux-input" placeholder="e.g. LUX-849201" required>
+                        </div>
+                        <button type="submit" class="btn-gold w-100 justify-content-center py-2">Lookup Reservation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="lux-footer mt-5">
+        <div class="container text-center">
+            <p class="small text-muted mb-0">&copy; 2026 LUXORA Hotel Management &amp; Hospitality System. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle & Custom Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

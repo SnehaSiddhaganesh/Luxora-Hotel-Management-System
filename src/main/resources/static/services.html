@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Services & Concierge — LUXORA Hotel</title>
+    <meta name="description" content="Explore luxury 5-star hotel services at LUXORA. 24/7 Room service, housekeeping, spa & wellness, infinity pool, airport pickup, and fitness center.">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom Design System CSS -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- 1. PREMIUM RESPONSIVE NAVBAR -->
+    <nav class="navbar navbar-expand-xl lux-navbar scrolled">
+        <div class="container">
+            <a class="brand-logo" href="index.html">
+                <i class="fa-solid fa-crown"></i>
+                <div class="d-flex flex-column">
+                    <span class="text-gold lh-1">LUXORA</span>
+                    <span class="brand-tagline">Stay. Dine. Relax. Experience Luxury.</span>
+                </div>
+            </a>
+            
+            <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#luxoraNavbar">
+                <i class="fa-solid fa-bars fs-2 text-gold"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="luxoraNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-xl-0">
+                    <li class="nav-item"><a class="nav-link-custom" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="rooms.html">Rooms</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="dining.html">Dining</a></li>
+                    <li class="nav-item"><a class="nav-link-custom active" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="booking.html">Reservations</a></li>
+                    <li class="nav-item"><a class="nav-link-custom" href="contact.html">Concierge Desk</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2 mt-3 mt-xl-0">
+                    <button class="btn-outline-gold btn-sm" data-bs-toggle="modal" data-bs-target="#myBookingModal">
+                        <i class="fa-solid fa-magnifying-glass me-1"></i> My Booking
+                    </button>
+
+                    <a href="login.html" class="btn-outline-gold btn-sm">
+                        <i class="fa-solid fa-user me-1"></i> Login / Register
+                    </a>
+
+                    <a href="cart.html" class="btn-gold btn-sm">
+                        <i class="fa-solid fa-cart-shopping me-1"></i> Cart 
+                        <span class="badge bg-dark text-warning rounded-circle ms-1" id="nav-cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HEADER BANNER -->
+    <section class="py-5 mt-5 text-center text-white" style="background: linear-gradient(180deg, rgba(10, 12, 16, 0.85) 0%, rgba(10, 12, 16, 1) 100%), url('images/hero-bg.png') center/cover;">
+        <div class="container py-4">
+            <span class="sub-title">Tailored Royalty Experience</span>
+            <h1 class="display-4 font-serif text-white mb-2">Luxury Hotel Services &amp; <span class="text-gold">Concierge</span></h1>
+            <p class="text-muted max-w-600 mx-auto fs-6">From 24/7 personal butler room service and Aura Spa treatments to Rolls-Royce airport transfers, request any service with one tap.</p>
+        </div>
+    </section>
+
+    <!-- 3. SERVICES CARDS GRID SECTION -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="sub-title">Bespoke Hospitality</span>
+                <h2 class="display-5 text-white">Our 5-Star <span class="text-gold">Service Amenities</span></h2>
+                <p class="text-muted max-w-600 mx-auto fs-6">Select any service below to submit an instant request to our concierge desk.</p>
+            </div>
+
+            <!-- Dynamic Services Grid Container -->
+            <div class="row g-4" id="services-grid-container">
+                <!-- JavaScript populated by services.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. SERVICE REQUEST MODAL FORM -->
+    <div class="modal fade" id="serviceRequestModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: var(--bg-surface); border: 1px solid var(--gold-primary); color: #fff;">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title font-serif text-gold"><i class="fa-solid fa-bell me-2"></i> Submit Service Request</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form onsubmit="handleServiceRequestSubmit(event)">
+                        
+                        <div class="mb-3">
+                            <label for="req-service-title" class="form-label text-gold small text-uppercase fw-semibold">Service Type</label>
+                            <select id="req-service-title" class="lux-input" required>
+                                <option value="24/7 Room Service">24/7 Room Service</option>
+                                <option value="Housekeeping">Housekeeping &amp; Linen Refresh</option>
+                                <option value="Aura Spa & Wellness">Aura Spa &amp; Wellness</option>
+                                <option value="Rooftop Swimming Pool">Rooftop Swimming Pool Cabana</option>
+                                <option value="Airport Pickup & Transfer">Airport Pickup &amp; Transfer</option>
+                                <option value="Valet Parking">Valet Parking</option>
+                                <option value="Express Laundry & Pressing">Express Laundry &amp; Pressing</option>
+                                <option value="High-Speed Wi-Fi 6">Wi-Fi 6 Technical Assistance</option>
+                                <option value="Michelin Restaurant Dining">Michelin Restaurant Table Reserve</option>
+                                <option value="24/7 Fitness Center">Fitness Center Trainer Session</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="req-room-number" class="form-label text-gold small text-uppercase fw-semibold">Suite / Room Number *</label>
+                            <input type="text" id="req-room-number" class="lux-input" placeholder="e.g. Suite 501" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="req-preferred-time" class="form-label text-gold small text-uppercase fw-semibold">Preferred Service Time *</label>
+                            <select id="req-preferred-time" class="lux-input" required>
+                                <option value="ASAP (Immediate Service)">ASAP (Immediate Service)</option>
+                                <option value="Morning (9:00 AM - 11:00 AM)">Morning (9:00 AM - 11:00 AM)</option>
+                                <option value="Afternoon (1:00 PM - 3:00 PM)">Afternoon (1:00 PM - 3:00 PM)</option>
+                                <option value="Evening (6:00 PM - 8:00 PM)">Evening (6:00 PM - 8:00 PM)</option>
+                                <option value="Night Turn-down (9:30 PM)">Night Turn-down (9:30 PM)</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="req-special-notes" class="form-label text-gold small text-uppercase fw-semibold">Special Requests / Instructions</label>
+                            <textarea id="req-special-notes" class="lux-input" rows="3" placeholder="e.g. Extra plush towels, lavender aromatherapy oil, express iron..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-gold w-100 justify-content-center py-2">
+                            <i class="fa-solid fa-paper-plane me-2"></i> Submit Service Request
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. SERVICE CONFIRMATION RECEIPT MODAL -->
+    <div class="modal fade" id="serviceConfirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: var(--bg-surface); border: 1px solid var(--gold-primary); color: #fff;">
+                <div class="modal-header border-secondary text-center">
+                    <h5 class="modal-title font-serif text-gold w-100">
+                        <i class="fa-solid fa-circle-check text-success me-2"></i> Service Requested!
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <div class="mb-3">
+                        <i class="fa-solid fa-bell-concierge text-gold fs-1"></i>
+                    </div>
+                    <p class="text-muted small">Your service ticket has been dispatched to our Chief Butler Desk:</p>
+
+                    <div class="p-3 my-3 rounded-3" style="background: rgba(212,175,55,0.15); border: 1px solid var(--border-gold);">
+                        <div class="small text-gold text-uppercase">Service Ticket ID</div>
+                        <div class="fs-3 font-serif fw-bold text-white" id="srv-modal-ref">SRV-000000</div>
+                    </div>
+
+                    <div class="text-start small">
+                        <div class="d-flex justify-content-between py-1 border-bottom border-secondary">
+                            <span class="text-muted">Requested Service:</span>
+                            <span class="text-gold fw-bold" id="srv-modal-title">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between py-1 border-bottom border-secondary">
+                            <span class="text-muted">Target Suite:</span>
+                            <span class="text-white font-monospace" id="srv-modal-room">-</span>
+                        </div>
+                        <div class="d-flex justify-content-between py-1 border-bottom border-secondary">
+                            <span class="text-muted">Preferred Time:</span>
+                            <span class="text-white font-monospace" id="srv-modal-time">-</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary justify-content-center">
+                    <button type="button" class="btn-gold" data-bs-dismiss="modal">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALS FOR LOGIN, MY BOOKING -->
+    <div class="modal fade" id="loginRegisterModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: var(--bg-surface); border: 1px solid var(--gold-primary); color: #fff;">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title font-serif text-gold">LUXORA Guest Portal</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form data-luxora-login-form>
+                        <div class="mb-3">
+                            <label class="form-label text-gold small">Email Address</label>
+                            <input type="email" class="lux-input" placeholder="guest@domain.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-gold small">Password</label>
+                            <input type="password" class="lux-input" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-gold w-100 justify-content-center py-2">Login to Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myBookingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: var(--bg-surface); border: 1px solid var(--gold-primary); color: #fff;">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title font-serif text-gold"><i class="fa-solid fa-magnifying-glass me-2"></i> Find My Booking</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form onsubmit="event.preventDefault(); showToast('Booking LUX-849201 found: Presidential Suite (Confirmed)', 'Reservation Status');">
+                        <div class="mb-3">
+                            <label class="form-label text-gold small">Booking Reference ID</label>
+                            <input type="text" class="lux-input" placeholder="e.g. LUX-849201" required>
+                        </div>
+                        <button type="submit" class="btn-gold w-100 justify-content-center py-2">Lookup Reservation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="lux-footer mt-5">
+        <div class="container text-center">
+            <p class="small text-muted mb-0">&copy; 2026 LUXORA Hotel Management &amp; Hospitality System. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle & Custom Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
