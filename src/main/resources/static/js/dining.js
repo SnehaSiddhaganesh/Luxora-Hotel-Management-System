@@ -9,7 +9,7 @@ const DINING_MENU_DATA = [
         name: 'Masala Dosa',
         category: 'breakfast',
         categoryName: 'Breakfast',
-        image: 'images/dish-breakfast.jpg',
+        image: 'images/dishes/breakfast-1.jpg',
         price: 180,
         rating: 4.8,
         reviewsCount: 142,
@@ -23,7 +23,7 @@ const DINING_MENU_DATA = [
         name: 'Idli (3 Pcs)',
         category: 'breakfast',
         categoryName: 'Breakfast',
-        image: 'images/dish-breakfast.jpg',
+        image: 'images/dishes/breakfast-2.jpg',
         price: 140,
         rating: 4.7,
         reviewsCount: 98,
@@ -37,7 +37,7 @@ const DINING_MENU_DATA = [
         name: 'Indori Poha',
         category: 'breakfast',
         categoryName: 'Breakfast',
-        image: 'images/dish-breakfast.jpg',
+        image: 'images/dishes/breakfast-3.jpg',
         price: 120,
         rating: 4.6,
         reviewsCount: 74,
@@ -51,7 +51,7 @@ const DINING_MENU_DATA = [
         name: 'Artisan Veg Sandwich',
         category: 'breakfast',
         categoryName: 'Breakfast',
-        image: 'images/dish-breakfast.jpg',
+        image: 'images/dishes/breakfast-4.jpg',
         price: 160,
         rating: 4.7,
         reviewsCount: 65,
@@ -60,6 +60,20 @@ const DINING_MENU_DATA = [
         description: 'Grilled multi-grain sourdough bread stuffed with cucumber, tomato, paneer, and fresh mint pesto.',
         ingredients: ['Sourdough Bread', 'Paneer Slices', 'Mint Pesto', 'Cucumber & Tomato']
     },
+    {
+        id: 'food-105',
+        name: 'Masala Potato Toast',
+        category: 'breakfast',
+        categoryName: 'Breakfast',
+        image: 'images/dishes/breakfast-5.jpg',
+        price: 190,
+        rating: 4.7,
+        reviewsCount: 82,
+        isVeg: true,
+        spiceLevel: '🌶️ Mild',
+        description: 'A savory spiced potato filling served on crisp toasted sourdough with fresh herbs.',
+        ingredients: ['Potato', 'Tomato', 'Onion', 'Green Chilli', 'Sourdough Toast']
+    },
 
     // Main Course
     {
@@ -67,7 +81,7 @@ const DINING_MENU_DATA = [
         name: 'Paneer Butter Masala',
         category: 'main',
         categoryName: 'Main Course',
-        image: 'images/dish-main-course.jpg',
+        image: 'images/dishes/main-course-1.jpg',
         price: 340,
         rating: 4.9,
         reviewsCount: 210,
@@ -81,7 +95,7 @@ const DINING_MENU_DATA = [
         name: 'Royal Veg Biryani',
         category: 'main',
         categoryName: 'Main Course',
-        image: 'images/dish-main-course.jpg',
+        image: 'images/dishes/main-course-2.jpg',
         price: 320,
         rating: 4.8,
         reviewsCount: 185,
@@ -95,7 +109,7 @@ const DINING_MENU_DATA = [
         name: 'Dal Tadka (Desi Ghee)',
         category: 'main',
         categoryName: 'Main Course',
-        image: 'images/dish-main-course.jpg',
+        image: 'images/dishes/main-course-3.jpg',
         price: 240,
         rating: 4.7,
         reviewsCount: 130,
@@ -109,7 +123,7 @@ const DINING_MENU_DATA = [
         name: 'Butter Roti (2 Pcs)',
         category: 'main',
         categoryName: 'Main Course',
-        image: 'images/dish-main-course.jpg',
+        image: 'images/dishes/main-course-4.jpg',
         price: 40,
         rating: 4.9,
         reviewsCount: 310,
@@ -118,6 +132,20 @@ const DINING_MENU_DATA = [
         description: 'Freshly baked whole wheat tandoori flatbread brushed generously with farm butter.',
         ingredients: ['Whole Wheat Atta', 'Farm Butter']
     },
+    {
+        id: 'food-205',
+        name: 'Palak Paneer',
+        category: 'main',
+        categoryName: 'Main Course',
+        image: 'images/dishes/main-course-5.jpg',
+        price: 310,
+        rating: 4.8,
+        reviewsCount: 126,
+        isVeg: true,
+        spiceLevel: '🌶️ Medium',
+        description: 'Soft paneer cubes folded into a creamy spinach gravy with ginger, garlic, and warming spices.',
+        ingredients: ['Paneer', 'Spinach', 'Ginger', 'Garlic', 'Cream']
+    },
 
     // Snacks
     {
@@ -125,7 +153,7 @@ const DINING_MENU_DATA = [
         name: 'Charbroiled Paneer Tikka',
         category: 'snacks',
         categoryName: 'Snacks',
-        image: 'images/dish-spicy.jpg',
+        image: 'images/dishes/snacks-1.jpg',
         price: 280,
         rating: 4.8,
         reviewsCount: 160,
@@ -139,7 +167,7 @@ const DINING_MENU_DATA = [
         name: 'Chilli Paneer (Dry/Gravy)',
         category: 'snacks',
         categoryName: 'Snacks',
-        image: 'images/dish-spicy.jpg',
+        image: 'images/dishes/snacks-2.jpg',
         price: 290,
         rating: 4.7,
         reviewsCount: 145,
@@ -153,7 +181,7 @@ const DINING_MENU_DATA = [
         name: 'Wok Schezwan Noodles',
         category: 'snacks',
         categoryName: 'Snacks',
-        image: 'images/dish-spicy.jpg',
+        image: 'images/dishes/snacks-3.jpg',
         price: 260,
         rating: 4.6,
         reviewsCount: 112,
@@ -162,6 +190,34 @@ const DINING_MENU_DATA = [
         description: 'High-flame wok tossed noodles loaded with crunchy julienne vegetables in fiery Schezwan chilli garlic sauce.',
         ingredients: ['Eggless Noodles', 'Schezwan Sauce', 'Carrot & Cabbage', 'Garlic']
     },
+    {
+        id: 'food-304',
+        name: 'Crispy Vegetable Spring Rolls',
+        category: 'snacks',
+        categoryName: 'Snacks',
+        image: 'images/dishes/snacks-4.jpg',
+        price: 220,
+        rating: 4.6,
+        reviewsCount: 88,
+        isVeg: true,
+        spiceLevel: '🌶️ Mild',
+        description: 'Golden crisp rolls filled with seasoned vegetables and served with a tangy dipping sauce.',
+        ingredients: ['Cabbage', 'Carrot', 'Spring Onion', 'Sweet Chilli Sauce']
+    },
+    {
+        id: 'food-305',
+        name: 'Crispy Corn Chaat',
+        category: 'snacks',
+        categoryName: 'Snacks',
+        image: 'images/dishes/snacks-5.jpg',
+        price: 210,
+        rating: 4.7,
+        reviewsCount: 94,
+        isVeg: true,
+        spiceLevel: '🌶️ Medium',
+        description: 'Crunchy golden corn tossed with peppers, lime, and a lively blend of Indian spices.',
+        ingredients: ['Sweet Corn', 'Bell Pepper', 'Lime', 'Chaat Masala']
+    },
 
     // Spicy
     {
@@ -169,7 +225,7 @@ const DINING_MENU_DATA = [
         name: 'Fiery Chef Spicy Biryani',
         category: 'spicy',
         categoryName: 'Spicy Special',
-        image: 'images/dish-spicy.jpg',
+        image: 'images/dishes/spicy-1.jpg',
         price: 360,
         rating: 4.9,
         reviewsCount: 195,
@@ -178,14 +234,70 @@ const DINING_MENU_DATA = [
         description: 'For spice connoisseurs! Fire-tempered basmati rice infused with Guntur red chillies, black pepper & biryani masala.',
         ingredients: ['Basmati Rice', 'Guntur Red Chillies', 'Black Pepper', 'Mint & Coriander', 'Desi Ghee']
     },
+    {
+        id: 'food-402',
+        name: 'Andhra Chilli Paneer',
+        category: 'spicy',
+        categoryName: 'Spicy Special',
+        image: 'images/dishes/spicy-2.jpg',
+        price: 320,
+        rating: 4.8,
+        reviewsCount: 118,
+        isVeg: true,
+        spiceLevel: '🌶️🌶️🌶️ Fiery Hot',
+        description: 'Paneer tossed with fiery Andhra chillies, curry leaves, and a punchy house spice mix.',
+        ingredients: ['Paneer', 'Andhra Chillies', 'Curry Leaves', 'Garlic', 'Spice Mix']
+    },
+    {
+        id: 'food-403',
+        name: 'Schezwan Firecracker Potatoes',
+        category: 'spicy',
+        categoryName: 'Spicy Special',
+        image: 'images/dishes/spicy-3.jpg',
+        price: 260,
+        rating: 4.7,
+        reviewsCount: 105,
+        isVeg: true,
+        spiceLevel: '🌶️🌶️🌶️ Fiery Hot',
+        description: 'Crisp potato bites coated in bold Schezwan chilli sauce with sesame and spring onion.',
+        ingredients: ['Baby Potatoes', 'Schezwan Chilli Sauce', 'Sesame', 'Spring Onion']
+    },
+    {
+        id: 'food-404',
+        name: 'Kolhapuri Vegetable Curry',
+        category: 'spicy',
+        categoryName: 'Spicy Special',
+        image: 'images/dishes/spicy-4.jpg',
+        price: 330,
+        rating: 4.8,
+        reviewsCount: 97,
+        isVeg: true,
+        spiceLevel: '🌶️🌶️🌶️ Fiery Hot',
+        description: 'A robust mixed vegetable curry simmered in a traditional, chilli-forward Kolhapuri masala.',
+        ingredients: ['Seasonal Vegetables', 'Kolhapuri Masala', 'Tomato', 'Coconut', 'Chillies']
+    },
+    {
+        id: 'food-405',
+        name: 'Spicy Tandoori Paneer Tikka',
+        category: 'spicy',
+        categoryName: 'Spicy Special',
+        image: 'images/dishes/spicy-5.jpg',
+        price: 310,
+        rating: 4.9,
+        reviewsCount: 132,
+        isVeg: true,
+        spiceLevel: '🌶️🌶️ Hot',
+        description: 'Paneer and peppers marinated in a hot tandoori masala and roasted in the clay oven.',
+        ingredients: ['Paneer', 'Bell Peppers', 'Tandoori Masala', 'Yogurt', 'Mint']
+    },
 
-    // Sweet & Desserts
+    // Sweet
     {
         id: 'food-501',
         name: 'Warm Gulab Jamun (2 Pcs)',
         category: 'sweet',
-        categoryName: 'Sweet & Desserts',
-        image: 'images/dish-sweets.jpg',
+        categoryName: 'Sweet',
+        image: 'images/dishes/sweet-1.jpg',
         price: 150,
         rating: 4.9,
         reviewsCount: 230,
@@ -198,8 +310,8 @@ const DINING_MENU_DATA = [
         id: 'food-502',
         name: 'Saffron Rasmalai (2 Pcs)',
         category: 'sweet',
-        categoryName: 'Sweet & Desserts',
-        image: 'images/dish-sweets.jpg',
+        categoryName: 'Sweet',
+        image: 'images/dishes/sweet-2.jpg',
         price: 180,
         rating: 4.9,
         reviewsCount: 190,
@@ -209,11 +321,55 @@ const DINING_MENU_DATA = [
         ingredients: ['Chhena Discs', 'Saffron Milk (Rabri)', 'Almonds & Pistachios', 'Cardamom']
     },
     {
+        id: 'food-505',
+        name: 'Pistachio Kaju Katli',
+        category: 'sweet',
+        categoryName: 'Sweet',
+        image: 'images/dishes/sweet-3.jpg',
+        price: 200,
+        rating: 4.8,
+        reviewsCount: 108,
+        isVeg: true,
+        spiceLevel: '🌶️ Mild',
+        description: 'Delicate cashew fudge finished with a fragrant layer of crushed pistachios.',
+        ingredients: ['Cashews', 'Sugar', 'Pistachios', 'Cardamom']
+    },
+    {
+        id: 'food-506',
+        name: 'Mango Shrikhand',
+        category: 'sweet',
+        categoryName: 'Sweet',
+        image: 'images/dishes/sweet-4.jpg',
+        price: 170,
+        rating: 4.7,
+        reviewsCount: 86,
+        isVeg: true,
+        spiceLevel: '🌶️ Mild',
+        description: 'Creamy strained yogurt blended with ripe mango and a hint of cardamom.',
+        ingredients: ['Strained Yogurt', 'Mango', 'Sugar', 'Cardamom']
+    },
+    {
+        id: 'food-507',
+        name: 'Coconut Ladoo (2 Pcs)',
+        category: 'sweet',
+        categoryName: 'Sweet',
+        image: 'images/dishes/sweet-5.jpg',
+        price: 140,
+        rating: 4.6,
+        reviewsCount: 73,
+        isVeg: true,
+        spiceLevel: '🌶️ Mild',
+        description: 'Soft coconut ladoos rolled with toasted coconut and a touch of saffron.',
+        ingredients: ['Coconut', 'Condensed Milk', 'Saffron', 'Cardamom']
+    },
+
+    // Desserts
+    {
         id: 'food-503',
         name: 'Belgian Chocolate Cake',
         category: 'desserts',
-        categoryName: 'Sweet & Desserts',
-        image: 'images/dish-sweets.jpg',
+        categoryName: 'Desserts',
+        image: 'images/dishes/desserts-1.jpg',
         price: 220,
         rating: 4.8,
         reviewsCount: 140,
@@ -226,8 +382,8 @@ const DINING_MENU_DATA = [
         id: 'food-504',
         name: 'Artisan Gourmet Ice Cream',
         category: 'desserts',
-        categoryName: 'Sweet & Desserts',
-        image: 'images/dish-sweets.jpg',
+        categoryName: 'Desserts',
+        image: 'images/dishes/desserts-2.jpg',
         price: 160,
         rating: 4.7,
         reviewsCount: 120,
@@ -236,6 +392,48 @@ const DINING_MENU_DATA = [
         description: 'Double scoop of handcrafted Madagascar vanilla bean and rich Belgian dark chocolate gelato.',
         ingredients: ['Whole Cream', 'Vanilla Bean Pods', 'Dark Chocolate Chips']
     },
+    {
+        id: 'food-508',
+        name: 'New York Baked Cheesecake',
+        category: 'desserts',
+        categoryName: 'Desserts',
+        image: 'images/dishes/desserts-3.jpg',
+        price: 250,
+        rating: 4.8,
+        reviewsCount: 115,
+        isVeg: true,
+        spiceLevel: '🌶️ Mild',
+        description: 'Silky baked cream cheese on a buttery biscuit base, served with seasonal berry compote.',
+        ingredients: ['Cream Cheese', 'Biscuit Crumb', 'Vanilla', 'Berry Compote']
+    },
+    {
+        id: 'food-509',
+        name: 'Warm Chocolate Brownie',
+        category: 'desserts',
+        categoryName: 'Desserts',
+        image: 'images/dishes/desserts-4.jpg',
+        price: 210,
+        rating: 4.7,
+        reviewsCount: 102,
+        isVeg: true,
+        spiceLevel: '🌶️ Mild',
+        description: 'A rich, fudgy chocolate brownie served warm with a scoop of vanilla ice cream.',
+        ingredients: ['Dark Chocolate', 'Cocoa', 'Butter', 'Vanilla Ice Cream']
+    },
+    {
+        id: 'food-510',
+        name: 'Classic Tiramisu',
+        category: 'desserts',
+        categoryName: 'Desserts',
+        image: 'images/dishes/desserts-5.jpg',
+        price: 240,
+        rating: 4.8,
+        reviewsCount: 91,
+        isVeg: true,
+        spiceLevel: '🌶️ Mild',
+        description: 'Espresso-soaked sponge layered with mascarpone cream and a dusting of cocoa.',
+        ingredients: ['Mascarpone', 'Espresso', 'Sponge Cake', 'Cocoa']
+    },
 
     // Beverages
     {
@@ -243,7 +441,7 @@ const DINING_MENU_DATA = [
         name: 'Filter Coffee / Cappuccino',
         category: 'beverages',
         categoryName: 'Beverages',
-        image: 'images/food-breakfast.png',
+        image: 'images/dishes/beverages-1.jpg',
         price: 120,
         rating: 4.8,
         reviewsCount: 280,
@@ -257,7 +455,7 @@ const DINING_MENU_DATA = [
         name: 'Masala Ginger Tea',
         category: 'beverages',
         categoryName: 'Beverages',
-        image: 'images/food-breakfast.png',
+        image: 'images/dishes/beverages-2.jpg',
         price: 90,
         rating: 4.9,
         reviewsCount: 310,
@@ -271,7 +469,7 @@ const DINING_MENU_DATA = [
         name: 'Cold-Pressed Fresh Juice',
         category: 'beverages',
         categoryName: 'Beverages',
-        image: 'images/food-breakfast.png',
+        image: 'images/dishes/beverages-3.jpg',
         price: 150,
         rating: 4.8,
         reviewsCount: 175,
@@ -285,7 +483,7 @@ const DINING_MENU_DATA = [
         name: 'Belgian Chocolate Milkshake',
         category: 'beverages',
         categoryName: 'Beverages',
-        image: 'images/food-breakfast.png',
+        image: 'images/dishes/beverages-4.jpg',
         price: 180,
         rating: 4.9,
         reviewsCount: 205,
@@ -293,6 +491,20 @@ const DINING_MENU_DATA = [
         spiceLevel: '🌶️ Mild',
         description: 'Thick creamy milkshake blended with dark Belgian chocolate fudge and vanilla scoop.',
         ingredients: ['Belgian Chocolate', 'Whole Milk', 'Vanilla Ice Cream', 'Whipped Cream']
+    },
+    {
+        id: 'food-605',
+        name: 'Fresh Mint Lemonade',
+        category: 'beverages',
+        categoryName: 'Beverages',
+        image: 'images/dishes/beverages-5.jpg',
+        price: 130,
+        rating: 4.7,
+        reviewsCount: 89,
+        isVeg: true,
+        spiceLevel: '🌶️ Mild',
+        description: 'A chilled blend of fresh lemon, garden mint, and sparkling water.',
+        ingredients: ['Fresh Lemon', 'Mint', 'Sparkling Water', 'Sugar']
     }
 ];
 
@@ -339,7 +551,7 @@ function renderFoodMenu(foodList) {
         <div class="col-lg-3 col-md-6 food-card-item">
             <div class="food-card">
                 <div class="food-img-wrapper">
-                    <img src="${item.image}" alt="${item.name}">
+                    <img src="${item.image}" alt="${item.name}" loading="lazy">
                     <span class="food-badge"><i class="fa-solid fa-tag text-gold me-1"></i> ${item.categoryName}</span>
                     
                     <!-- Veg / Non-Veg indicator -->
