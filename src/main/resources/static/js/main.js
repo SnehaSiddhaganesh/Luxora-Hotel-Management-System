@@ -160,8 +160,8 @@ function initCartSystem() {
 
     renderCartModal();
 
-    window.addToCart = function(title, price, category, itemCode) {
-        cartItems.push({ title, price, category, itemCode });
+    window.addToCart = function(title, price, category, itemCode, image) {
+        cartItems.push({ title, price, category, itemCode, image: image || 'images/food-breakfast.png' });
         cartCount = cartItems.length;
         localStorage.setItem('luxora_cart', JSON.stringify(cartItems));
 

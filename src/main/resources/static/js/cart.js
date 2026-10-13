@@ -1,6 +1,6 @@
 /**
- * LUXORA — Food Cart & Live Order Tracking Engine
- * Structured for future Spring Boot REST API (/api/v1/orders) & MySQL Integration
+ * LUXORA — Food Cart & Order Tracking UI
+ * Orders are persisted through Spring Boot; delivery progress remains a local simulation.
  */
 
 let cartData = [];
@@ -33,7 +33,7 @@ function loadCartFromStorage() {
                     category: item.category || 'Gourmet Dish',
                     itemCode: item.itemCode || null,
                     quantity: 1,
-                    image: 'images/food-breakfast.png'
+                    image: item.image || 'images/food-breakfast.png'
                 });
             }
         });
@@ -144,7 +144,13 @@ function syncCartToStorage() {
     const flatItems = [];
     cartData.forEach(item => {
         for (let i = 0; i < item.quantity; i++) {
-            flatItems.push({ title: item.title, price: item.price, category: item.category, itemCode: item.itemCode });
+            flatItems.push({
+                title: item.title,
+                price: item.price,
+                category: item.category,
+                itemCode: item.itemCode,
+                image: item.image
+            });
         }
     });
     localStorage.setItem('luxora_cart', JSON.stringify(flatItems));

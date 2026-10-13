@@ -58,6 +58,9 @@ public class Order {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal tax = BigDecimal.ZERO;
 
+    @Column(nullable = false, precision = 10, scale = 2, columnDefinition = "DECIMAL(10,2) DEFAULT 0.00 NOT NULL")
+    private BigDecimal deliveryFee = BigDecimal.ZERO;
+
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal total = BigDecimal.ZERO;
 
@@ -137,6 +140,14 @@ public class Order {
 
     public void setTax(BigDecimal tax) {
         this.tax = tax;
+    }
+
+    public BigDecimal getDeliveryFee() {
+        return deliveryFee;
+    }
+
+    public void setDeliveryFee(BigDecimal deliveryFee) {
+        this.deliveryFee = deliveryFee;
     }
 
     public BigDecimal getTotal() {

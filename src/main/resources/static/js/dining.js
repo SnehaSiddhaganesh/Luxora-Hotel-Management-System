@@ -578,7 +578,7 @@ function renderFoodMenu(foodList) {
                             <button class="btn-outline-gold btn-sm py-1 px-2" onclick="openFoodDetailsModal('${item.id}')" title="View Ingredients & Customize">
                                 <i class="fa-solid fa-circle-info"></i>
                             </button>
-                            <button class="btn-gold btn-sm py-1 px-2" onclick="addToCart('${item.name}', ${item.price}, '${item.categoryName}', '${item.id}')">
+                            <button class="btn-gold btn-sm py-1 px-2" onclick="addToCart('${item.name}', ${item.price}, '${item.categoryName}', '${item.id}', '${item.image}')">
                                 <i class="fa-solid fa-plus me-1"></i> Add
                             </button>
                         </div>
@@ -672,7 +672,7 @@ function openFoodDetailsModal(foodId) {
         addBtn.onclick = () => {
             const instructions = document.getElementById('modal-food-instructions')?.value || '';
             for (let i = 0; i < modalSelectedQty; i++) {
-                addToCart(`${item.name} ${instructions ? '(' + instructions + ')' : ''}`, item.price, item.categoryName, item.id);
+                addToCart(`${item.name} ${instructions ? '(' + instructions + ')' : ''}`, item.price, item.categoryName, item.id, item.image);
             }
             const modalElem = document.getElementById('foodDetailsModal');
             if (modalElem) bootstrap.Modal.getInstance(modalElem).hide();

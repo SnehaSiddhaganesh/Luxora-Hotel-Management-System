@@ -23,6 +23,10 @@ import com.luxora.hotel.repository.OrderRepository;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+    private static final BigDecimal TAX_RATE_PERCENT = BigDecimal.valueOf(5);
+    private static final BigDecimal DELIVERY_FEE = BigDecimal.valueOf(50);
+    private static final BigDecimal FREE_DELIVERY_THRESHOLD = BigDecimal.valueOf(500);
+
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final CustomerRepository customerRepository;
@@ -60,16 +64,7 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.PLACED);
         order.setOrderedAt(LocalDateTime.now());
 
-        BigDecimal subtotal = calculateSubtotal(items);
-        BigDecimal taxRate = BigDecimal.valueOf(10);
-        BigDecimal tax = calculateTax(subtotal, taxRate);
-        BigDecimal total = calculateTotal(subtotal, taxRate);
-        order.setSubtotal(subtotal);
-        order.setTax(tax);
-        order.setTotal(total);
-
-        Order savedOrder = orderRepository.save(order);
-
+        BigDecimal subtotal = BigDecimal.ZERO;
         for (OrderItem item : items) {
             if (item == null || item.getFoodItem() == null) {
                 throw new IllegalArgumentException("Each order item must reference a food item.");
@@ -78,12 +73,29 @@ public class OrderServiceImpl implements OrderService {
                 throw new IllegalArgumentException("Order item quantity must be greater than zero.");
             }
             FoodItem foodItem = item.getFoodItem();
-            if (foodItem.getPrice() == null) {
-                throw new IllegalArgumentException("Food item price is required.");
+            if (foodItem.getPrice() == null || foodItem.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+                throw new IllegalArgumentException("Food item price must be greater than zero.");
             }
+            BigDecimal unitPrice = foodItem.getPrice().setScale(2, RoundingMode.HALF_UP);
+            BigDecimal lineTotal = unitPrice.multiply(BigDecimal.valueOf(item.getQuantity()));
+            item.setUnitPrice(unitPrice);
+            item.setLineTotal(lineTotal);
+            subtotal = subtotal.add(lineTotal);
+        }
+
+        subtotal = subtotal.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal tax = calculateTax(subtotal, TAX_RATE_PERCENT);
+        BigDecimal deliveryFee = subtotal.compareTo(FREE_DELIVERY_THRESHOLD) >= 0
+                ? BigDecimal.ZERO.setScale(2)
+                : DELIVERY_FEE.setScale(2);
+        order.setSubtotal(subtotal);
+        order.setTax(tax);
+        order.setDeliveryFee(deliveryFee);
+        order.setTotal(subtotal.add(tax).add(deliveryFee).setScale(2, RoundingMode.HALF_UP));
+
+        Order savedOrder = orderRepository.save(order);
+        for (OrderItem item : items) {
             item.setOrder(savedOrder);
-            item.setUnitPrice(foodItem.getPrice());
-            item.setLineTotal(foodItem.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
             savedOrder.getItems().add(orderItemRepository.save(item));
         }
 
@@ -128,8 +140,15 @@ public class OrderServiceImpl implements OrderService {
             return BigDecimal.ZERO;
         }
         return items.stream()
-                .map(item -> item.getLineTotal() != null ? item.getLineTotal() : item.getUnitPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(item -> {
+                    if (item == null || item.getFoodItem() == null || item.getFoodItem().getPrice() == null
+                            || item.getQuantity() <= 0) {
+                        throw new IllegalArgumentException("Order items must have a food item, price, and positive quantity.");
+                    }
+                    return item.getFoodItem().getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
@@ -139,15 +158,21 @@ public class OrderServiceImpl implements OrderService {
             return BigDecimal.ZERO;
         }
         if (taxRatePercent == null) {
-            taxRatePercent = BigDecimal.valueOf(10);
+            taxRatePercent = TAX_RATE_PERCENT;
+        }
+        if (taxRatePercent.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Tax rate cannot be negative.");
         }
         BigDecimal percent = taxRatePercent.divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP);
-        return subtotal.multiply(percent);
+        return subtotal.multiply(percent).setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
     @Transactional(readOnly = true)
     public BigDecimal calculateTotal(BigDecimal subtotal, BigDecimal taxRatePercent) {
+        if (subtotal == null) {
+            return BigDecimal.ZERO.setScale(2);
+        }
         return subtotal.add(calculateTax(subtotal, taxRatePercent));
     }
 }

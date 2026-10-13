@@ -96,6 +96,8 @@ You can run and test this project using **any** of the following 3 methods:
 
 The `local` profile uses a file-backed H2 database at `./data/luxora` for development, so it does not require a separately configured MySQL account and customer accounts remain available after the app stops and restarts. Other profiles continue to use the MySQL settings.
 
+The local profile seeds any missing default food items on startup without replacing existing catalog entries. Dining orders calculate prices from the saved menu, apply 5% tax, and charge a ₹50 delivery fee below a ₹500 subtotal (free delivery at ₹500 or more). Payment handling is a local simulation only; no card or UPI payment is processed.
+
 ---
 
 ## 🔐 Authentication & Authorization

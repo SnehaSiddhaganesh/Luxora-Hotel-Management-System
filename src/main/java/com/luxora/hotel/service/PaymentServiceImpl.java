@@ -15,6 +15,7 @@ import com.luxora.hotel.model.PaymentStatus;
 import com.luxora.hotel.model.PaymentType;
 import com.luxora.hotel.repository.BookingRepository;
 import com.luxora.hotel.repository.PaymentRepository;
+import com.luxora.hotel.exception.InvalidPaymentException;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -41,6 +42,15 @@ public class PaymentServiceImpl implements PaymentService {
 
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new IllegalArgumentException("Booking not found with id: " + bookingId));
+        if (booking.getStatus() != BookingStatus.CONFIRMED) {
+            throw new InvalidPaymentException("Only confirmed bookings can be paid.");
+        }
+        if (booking.getTotal() == null || amount.compareTo(booking.getTotal()) != 0) {
+            throw new InvalidPaymentException("Payment amount must match the booking total.");
+        }
+        if (paymentRepository.findByBooking(booking).isPresent()) {
+            throw new InvalidPaymentException("A payment already exists for this booking.");
+        }
 
         Payment payment = new Payment();
         payment.setBooking(booking);
@@ -48,7 +58,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setAmount(amount);
         payment.setStatus(PaymentStatus.PAID);
         payment.setPaidAt(LocalDateTime.now());
-        payment.setTransactionReference("TXN-" + System.currentTimeMillis());
+        payment.setTransactionReference("SIMULATED-TXN-" + System.currentTimeMillis());
 
         Payment saved = paymentRepository.save(payment);
         booking.setStatus(BookingStatus.PAID);

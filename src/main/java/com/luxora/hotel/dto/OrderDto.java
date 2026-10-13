@@ -63,6 +63,7 @@ public class OrderDto {
             LocalDateTime orderedAt,
             BigDecimal subtotal,
             BigDecimal tax,
+            BigDecimal deliveryFee,
             BigDecimal total,
             List<OrderItemResponse> items
     ) {
@@ -86,6 +87,7 @@ public class OrderDto {
                     order.getOrderedAt(),
                     order.getSubtotal(),
                     order.getTax(),
+                    order.getDeliveryFee(),
                     order.getTotal(),
                     items
             );

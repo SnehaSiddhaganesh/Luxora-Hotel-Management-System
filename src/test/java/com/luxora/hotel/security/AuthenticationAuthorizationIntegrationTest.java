@@ -1,6 +1,7 @@
 package com.luxora.hotel.security;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,10 +26,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.luxora.hotel.entity.Booking;
 import com.luxora.hotel.entity.Customer;
+import com.luxora.hotel.entity.FoodItem;
 import com.luxora.hotel.entity.Room;
+import com.luxora.hotel.model.BookingStatus;
+import com.luxora.hotel.model.FoodCategory;
 import com.luxora.hotel.model.UserRole;
+import com.luxora.hotel.repository.BookingRepository;
 import com.luxora.hotel.repository.CustomerRepository;
+import com.luxora.hotel.repository.FoodItemRepository;
+import com.luxora.hotel.repository.OrderRepository;
+import com.luxora.hotel.repository.PaymentRepository;
 import com.luxora.hotel.repository.RoomRepository;
 
 @SpringBootTest(properties = "spring.datasource.url=jdbc:h2:mem:luxora-test;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE")
@@ -45,6 +54,18 @@ class AuthenticationAuthorizationIntegrationTest {
 
         @Autowired
         private RoomRepository roomRepository;
+
+        @Autowired
+        private FoodItemRepository foodItemRepository;
+
+        @Autowired
+        private OrderRepository orderRepository;
+
+        @Autowired
+        private BookingRepository bookingRepository;
+
+        @Autowired
+        private PaymentRepository paymentRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -280,6 +301,103 @@ class AuthenticationAuthorizationIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void localFoodCatalogContainsOrderableDishesForEveryDiningCategory() {
+        assertTrue(foodItemRepository.findByItemCode("food-105").isPresent());
+        assertTrue(foodItemRepository.findByItemCode("food-205").isPresent());
+        assertEquals(5L, foodItemRepository.findByAvailableTrueAndCategory(FoodCategory.SNACKS).stream()
+                .filter(item -> item.getItemCode().startsWith("food-30"))
+                .count());
+        assertEquals(5L, foodItemRepository.findByAvailableTrueAndCategory(FoodCategory.SPECIALTY).stream()
+                .filter(item -> item.getItemCode().matches("food-40[1-5]"))
+                .count());
+        assertTrue(foodItemRepository.findByItemCode("food-605").isPresent());
+        for (int code = 501; code <= 510; code++) {
+            assertTrue(foodItemRepository.findByItemCode("food-" + code).isPresent());
+        }
+    }
+
+    @Test
+    void diningOrderPersistsCartTotalsAndRejectsUnderpayment() throws Exception {
+        String email = "order-" + UUID.randomUUID() + "@example.com";
+        Customer customer = customerRepository.save(new Customer("Sam", "Guest", email, null, null));
+        String roomNumber = "O" + UUID.randomUUID().toString().substring(0, 7);
+        Room room = roomRepository.save(new Room(roomNumber, "ORDER_TEST", 2500, 2,
+                com.luxora.hotel.model.RoomStatus.AVAILABLE, "Order integration room"));
+        LocalDate checkIn = LocalDate.now().plusDays(40);
+        LocalDate checkOut = checkIn.plusDays(2);
+        String bookingRequest = objectMapper.writeValueAsString(java.util.Map.of(
+                "roomId", room.getId(),
+                "checkInDate", checkIn,
+                "checkOutDate", checkOut,
+                "numberOfGuests", 1
+        ));
+        MvcResult bookingResult = mockMvc.perform(post("/api/bookings")
+                        .with(user(email).roles("CUSTOMER"))
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bookingRequest))
+                .andExpect(status().isCreated())
+                .andReturn();
+        long bookingId = objectMapper.readTree(bookingResult.getResponse().getContentAsString())
+                .get("id").asLong();
+
+        FoodItem dish = foodItemRepository.findByItemCode("food-101").orElseThrow();
+        String orderRequest = objectMapper.writeValueAsString(java.util.Map.of(
+                "customerId", customer.getId(),
+                "bookingId", bookingId,
+                "items", List.of(java.util.Map.of("foodItemId", dish.getId(), "quantity", 2))
+        ));
+        MvcResult orderResult = mockMvc.perform(post("/api/orders")
+                        .with(user(email).roles("CUSTOMER"))
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(orderRequest))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.subtotal").value(360.0))
+                .andExpect(jsonPath("$.tax").value(18.0))
+                .andExpect(jsonPath("$.deliveryFee").value(50.0))
+                .andExpect(jsonPath("$.total").value(428.0))
+                .andExpect(jsonPath("$.items[0].unitPrice").value(180.0))
+                .andExpect(jsonPath("$.items[0].lineTotal").value(360.0))
+                .andReturn();
+
+        long orderId = objectMapper.readTree(orderResult.getResponse().getContentAsString()).get("id").asLong();
+        var savedOrder = orderRepository.findById(orderId).orElseThrow();
+        assertEquals(1, savedOrder.getItems().size());
+        assertEquals(0, savedOrder.getTotal().compareTo(new java.math.BigDecimal("428.00")));
+
+        String freeDeliveryOrder = objectMapper.writeValueAsString(java.util.Map.of(
+                "customerId", customer.getId(),
+                "bookingId", bookingId,
+                "items", List.of(java.util.Map.of("foodItemId", dish.getId(), "quantity", 3))
+        ));
+        mockMvc.perform(post("/api/orders")
+                        .with(user(email).roles("CUSTOMER"))
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(freeDeliveryOrder))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.subtotal").value(540.0))
+                .andExpect(jsonPath("$.tax").value(27.0))
+                .andExpect(jsonPath("$.deliveryFee").value(0.0))
+                .andExpect(jsonPath("$.total").value(567.0));
+
+        mockMvc.perform(post("/api/payments")
+                        .with(user(email).roles("CUSTOMER"))
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(java.util.Map.of(
+                                "bookingId", bookingId,
+                                "paymentType", "CASH",
+                                "amount", 1
+                        ))))
+                .andExpect(status().isBadRequest());
+        assertTrue(paymentRepository.findByBooking(bookingRepository.findById(bookingId).orElseThrow()).isEmpty());
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow();
+        assertEquals(BookingStatus.CONFIRMED, booking.getStatus());
     }
 
 }

@@ -2,6 +2,8 @@ package com.luxora.hotel.config;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -25,36 +27,57 @@ public class LocalFoodDataInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        if (foodItemRepository.count() > 0) {
-            return;
-        }
-
-        foodItemRepository.saveAll(List.of(
+        List<FoodItem> defaultMenu = List.of(
                 food("food-101", "Masala Dosa", 180, FoodCategory.BREAKFAST),
                 food("food-102", "Idli (3 Pcs)", 140, FoodCategory.BREAKFAST),
                 food("food-103", "Indori Poha", 120, FoodCategory.BREAKFAST),
                 food("food-104", "Artisan Veg Sandwich", 160, FoodCategory.BREAKFAST),
+                food("food-105", "Masala Potato Toast", 190, FoodCategory.BREAKFAST),
                 food("food-201", "Paneer Butter Masala", 340, FoodCategory.MAIN_COURSE),
                 food("food-202", "Royal Veg Biryani", 320, FoodCategory.MAIN_COURSE),
                 food("food-203", "Dal Tadka (Desi Ghee)", 240, FoodCategory.MAIN_COURSE),
                 food("food-204", "Butter Roti (2 Pcs)", 40, FoodCategory.MAIN_COURSE),
+                food("food-205", "Palak Paneer", 310, FoodCategory.MAIN_COURSE),
                 food("food-301", "Charbroiled Paneer Tikka", 280, FoodCategory.SNACKS),
                 food("food-302", "Chilli Paneer (Dry/Gravy)", 290, FoodCategory.SNACKS),
                 food("food-303", "Wok Schezwan Noodles", 260, FoodCategory.SNACKS),
+                food("food-304", "Crispy Vegetable Spring Rolls", 220, FoodCategory.SNACKS),
+                food("food-305", "Crispy Corn Chaat", 210, FoodCategory.SNACKS),
                 food("food-401", "Fiery Chef Spicy Biryani", 360, FoodCategory.SPECIALTY),
+                food("food-402", "Andhra Chilli Paneer", 320, FoodCategory.SPECIALTY),
+                food("food-403", "Schezwan Firecracker Potatoes", 260, FoodCategory.SPECIALTY),
+                food("food-404", "Kolhapuri Vegetable Curry", 330, FoodCategory.SPECIALTY),
+                food("food-405", "Spicy Tandoori Paneer Tikka", 310, FoodCategory.SPECIALTY),
                 food("food-501", "Warm Gulab Jamun (2 Pcs)", 150, FoodCategory.SWEETS),
                 food("food-502", "Saffron Rasmalai (2 Pcs)", 180, FoodCategory.SWEETS),
                 food("food-503", "Belgian Chocolate Cake", 220, FoodCategory.SWEETS),
                 food("food-504", "Artisan Gourmet Ice Cream", 160, FoodCategory.SWEETS),
+                food("food-505", "Pistachio Kaju Katli", 200, FoodCategory.SWEETS),
+                food("food-506", "Mango Shrikhand", 170, FoodCategory.SWEETS),
+                food("food-507", "Coconut Ladoo (2 Pcs)", 140, FoodCategory.SWEETS),
+                food("food-508", "New York Baked Cheesecake", 250, FoodCategory.SWEETS),
+                food("food-509", "Warm Chocolate Brownie", 210, FoodCategory.SWEETS),
+                food("food-510", "Classic Tiramisu", 240, FoodCategory.SWEETS),
                 food("food-601", "Filter Coffee / Cappuccino", 120, FoodCategory.BEVERAGES),
                 food("food-602", "Masala Ginger Tea", 90, FoodCategory.BEVERAGES),
                 food("food-603", "Cold-Pressed Fresh Juice", 150, FoodCategory.BEVERAGES),
                 food("food-604", "Belgian Chocolate Milkshake", 180, FoodCategory.BEVERAGES),
+                food("food-605", "Fresh Mint Lemonade", 130, FoodCategory.BEVERAGES),
                 food("food-701", "Royal Continental Platter", 650, FoodCategory.BREAKFAST),
                 food("food-702", "Gourmet Ribeye Steak", 1450, FoodCategory.MAIN_COURSE),
                 food("food-703", "Flame Tandoori Tikka", 750, FoodCategory.SPECIALTY),
                 food("food-704", "Gold Leaf Chocolate Soufflé", 850, FoodCategory.SWEETS)
-        ));
+        );
+
+        Set<String> existingCodes = foodItemRepository.findAll().stream()
+                .map(FoodItem::getItemCode)
+                .collect(Collectors.toSet());
+        List<FoodItem> missingItems = defaultMenu.stream()
+                .filter(item -> !existingCodes.contains(item.getItemCode()))
+                .toList();
+        if (!missingItems.isEmpty()) {
+            foodItemRepository.saveAll(missingItems);
+        }
     }
 
     private static FoodItem food(String code, String name, int price, FoodCategory category) {
